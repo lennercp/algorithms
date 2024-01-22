@@ -17,7 +17,7 @@ if(a < 0 || (a == 0 && b < 0)){
 
 ## Coeficientes A e B formam o vetor normal a reta
 Os coeficientes A e B formam o vetor normal a reta, e para rotacionar funciona assim: 
-vetor = (x,y), vetor_rotaciona_esquerda = (-y,x), vetor_rotaciona_direita = (y,-x), vetor_rotaciona_180 = (-x,-y)
-
-- oie
-- 
+vetor = (x,y), 
+- vetor_rotaciona_esquerda = (-y,x), 
+- vetor_rotaciona_direita = (y,-x), 
+- vetor_rotaciona_180 = (-x,-y)
