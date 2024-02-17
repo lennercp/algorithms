@@ -1,8 +1,8 @@
 struct kosaraju
 {
     int n, cnt = 0;
-    vector<vector<int>> adj, adj_rev;
-    vector<int> comp, tam_comp, vis;
+    vector<vector<int>> adj, adj_rev, vert_comp;
+    vector<int> comp, tam_comp, vis, grau;
     stack<int> order;
     kosaraju(int n) : n(n)
     {
@@ -10,6 +10,7 @@ struct kosaraju
         adj_rev.resize(n + 1);
         comp.resize(n + 1);
         vis.resize(n + 1);
+        grau.resize(n + 1);
     }
 
     void add_edge(int a, int b)
@@ -31,10 +32,15 @@ struct kosaraju
         vis[v] = 2;
         comp[v] = cnt;
         tam_comp.back()++;
+        if (vert_comp.back()[0] != v)
+            vert_comp.back().push_back(v);
         for (auto to : adj_rev[v])
             if (vis[to] == 1)
                 dfs2(to);
-        order.push(v);
+            else if (comp[to] != comp[v])
+            {
+                grau[comp[to]]++;
+            }
     }
 
     void build()
@@ -50,6 +56,7 @@ struct kosaraju
             if (vis[v] == 1)
             {
                 tam_comp.push_back(0);
+                vert_comp.emplace_back(1, v);
                 dfs2(v);
                 cnt++;
             }

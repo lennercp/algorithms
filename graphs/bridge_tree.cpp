@@ -1,7 +1,8 @@
 struct bridge_tree
 {
-    vector<int> pre, low, comp, bridges, prof, tam_comp;
-    vector<vector<int>> g, tree;
+    vector<int> pre, low, comp, prof, tam_comp;
+    vector<vector<int>> g, tree, vert_comp;
+    vector<array<int, 2>> bridges;
     int cnt, timer;
     stack<int> s;
 
@@ -17,11 +18,9 @@ struct bridge_tree
     {
         pre[v] = low[v] = ++timer;
         s.push(v);
-        // cout << "V " << v << " p " << p << '\n';
 
-        for (auto ind : g[v])
+        for (auto to : g[v])
         {
-            int to = edges[ind][0] ^ edges[ind][1] ^ v;
             if (to == p || prof[to] > prof[v])
                 continue;
 
@@ -32,28 +31,25 @@ struct bridge_tree
                 low[v] = min(low[v], low[to]);
 
                 if (low[to] > pre[v])
-                {
-                    bridges.push_back(ind);
-
-                    int u;
-                    cnt++;
-                    do
-                    {
-                        u = s.top();
-                        s.pop();
-                        comp[u] = cnt;
-                        tam_comp[cnt]++;
-                        // cout << "V " << u << " CMP " << cnt << " TAM " << tam_comp[cnt] << '\n';
-                    } while (u != to);
-                }
-                else
-                    res[ind] = {v, to};
+                    bridges.push_back({v, to});
             }
             else
-            {
                 low[v] = min(low[v], pre[to]);
-                res[ind] = {v, to};
-            }
+        }
+
+        if (pre[v] == low[v])
+        {
+            int u;
+            vector<int> aux;
+            do
+            {
+                u = s.top();
+                s.pop();
+                comp[u] = cnt;
+                aux.push_back(u);
+            } while (u != v && !s.empty());
+            vert_comp.push_back(aux);
+            cnt++;
         }
     }
 
@@ -63,32 +59,15 @@ struct bridge_tree
         bridges.clear();
         for (int v = 1; v < (int)g.size(); v++)
             if (pre[v] == 0)
+            {
                 dfs(v, -1);
-
-        int u;
-        cnt++;
-        do
-        {
-            u = s.top();
-            s.pop();
-            comp[u] = cnt;
-            tam_comp[cnt]++;
-            // cout << "V " << u << " CMP " << cnt << " TAM " << tam_comp[cnt] << '\n';
-        } while (!s.empty());
+            }
 
         tree.resize(cnt + 1);
-        for (auto ind : bridges)
+        for (auto [a, b] : bridges)
         {
-            int a = edges[ind][0];
-            int b = edges[ind][1];
-
-            a = comp[a];
-            b = comp[b];
-
-            edges2[ind][0] = a;
-            edges2[ind][1] = b;
-            tree[a].push_back(ind);
-            tree[b].push_back(ind);
+            tree[comp[a]].push_back(comp[b]);
+            tree[comp[b]].push_back(comp[a]);
         }
     }
 };
