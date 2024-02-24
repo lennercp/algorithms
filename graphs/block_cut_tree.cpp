@@ -66,7 +66,7 @@ struct block_cut_tree
                         blocks.back().push_back(s.top()), s.pop();
 
                     edgblocks.emplace_back(1, s2.top()), s2.pop();
-                    while (edgblocks.back().back() != pair(to, v))
+                    while (edgblocks.back().back() != make_pair(to, v))
                         edgblocks.back().push_back(s2.top()), s2.pop();
                 }
                 // if (low_to > pre[v]) aresta v-to eh ponte
