@@ -72,6 +72,7 @@ struct two_sat
 
     bool check()
     {
+        build()
         for (int i = 1; i <= n; i++)
         {
             if (comp[True(i)] == comp[False(i)])
