@@ -23,5 +23,5 @@ int main()
     // cin >> t;
     while (t--)
         solvetask();
-        // cout << (solvetask() ? "YES" : "NO") << '\n';
+        // cout << (solvetask() ? "Yes" : "No") << '\n';
 }
