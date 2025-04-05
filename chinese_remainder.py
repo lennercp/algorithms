@@ -13,9 +13,18 @@ def gcd_extended(a, b):
     return [a, x, y]
 
 
-a = [2, 3, 9]
-m = [3, 7, 10]
+print("Digite as congruencias na forma c a m, onde c é o coeficiente do x, a é o numero congruente e m o modulo, para parar digite 0")
 
+a= []
+m = []
+while True:
+    inp = list(map(int,input().split()))
+    if(inp[0] == 0): break
+    aux, x, y = gcd_extended(inp[0], inp[2])
+    inv = max(1, (inp[2] + x) % inp[2])
+    a.append(inp[1] * inv % inp[2])
+    m.append(inp[2])
+    
 # lcm of all elements in m
 lcm = m[0]
 for i in range(1, len(m)):
@@ -35,4 +44,8 @@ for i in range(len(m)):
 soma = 0
 for i in range(len(m)):
     soma += a[i] * m_zao[i] * m_inv[i]
-print(soma, lcm, soma % lcm)
+print("a = ", a)
+print("M = ", m_zao)
+print("Y = ", m_inv)
+print(soma, " = mod", int(lcm))
+print(int(soma%lcm), " = mod", int(lcm))
