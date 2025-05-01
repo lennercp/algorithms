@@ -4,6 +4,7 @@ typedef long long ll;
 
 #define rep(i, begin, end) for(int i = begin; i < end; i++)
 #define all(x) x.begin(),x.end()
+#define allr(x) x.rbegin(),x.rend()
 #define sz(x) (int)x.size()
 #define sq(x) (x)*(x)
 
